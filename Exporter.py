@@ -22,7 +22,7 @@ def main(argv):
 		opts, args = getopt.getopt(argv, "", ("username=", "near=", "within=", "since=", "until=", "querysearch=", "toptweets", "maxtweets=", "output="))
 
 		tweetCriteria = got.manager.TweetCriteria()
-		outputFileName = "output_got.csv"
+		outputFileName = "twitterhistory.csv"
 
 		for opt,arg in opts:
 			if opt == '--username':
@@ -57,13 +57,13 @@ def main(argv):
 
 		outputFile = codecs.open(outputFileName, "w+", "utf-8")
 
-		outputFile.write('username;date;retweets;favorites;text;geo;mentions;hashtags;id;permalink')
+		outputFile.write('date;text;')
 
 		print('Searching...\n')
 
 		def receiveBuffer(tweets):
 			for t in tweets:
-				outputFile.write(('\n%s;%s;%d;%d;"%s";%s;%s;%s;"%s";%s' % (t.date.strftime("%Y-%m-%d %H:%M"), t.text, t.permalink)))
+				outputFile.write(('\n%s;"%s";' % (t.date.strftime("%Y-%m-%d %H:%M"), t.text)))
 			outputFile.flush();
 			print('More %d saved on file...\n' % len(tweets))
 
